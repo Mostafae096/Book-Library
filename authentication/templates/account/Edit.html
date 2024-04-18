@@ -1,0 +1,25 @@
+{% extends "../components/base.html" %}
+{% block title %}Edit profile{% endblock %}
+
+{% block content %}
+<div class="form-main-content">
+
+  <form name='signup_form' id='signup_form' method="POST" action="" class="form-container">
+    {% csrf_token %}
+    <div class='form-title'>
+        <h2>Edit profile</h2>
+    </div>
+    {{ form.fullname.label_tag }}
+    {{ form.fullname }}
+    {{ form.email.label_tag }}
+    {{ form.email }}
+    {{ form.username.label_tag }}
+    {{ form.username }}
+    <div class='form-buttons'>
+        <button class='button' type="submit">Save Edit</button>
+    </div>
+</form>
+</div>
+
+{% endblock %}
+{% block footer %}{% endblock %}

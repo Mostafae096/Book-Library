@@ -1,0 +1,24 @@
+{% extends "../components/base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<div class="form-main-content">
+
+    <form name='login_form' id='login_form' method="post" action="" class="form-container">
+        {% csrf_token %}
+        <div class='form-title'>
+            <h2>Login</h2>
+        </div>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        <div class='form-buttons'>
+            <button class='button' type="submit">Login</button>
+        </div>
+        <div class='form-signup-link'>
+            <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}

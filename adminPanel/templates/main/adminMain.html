@@ -1,0 +1,59 @@
+{% extends "../components/base.html" %}
+{% block title %}Book name{% endblock %}
+{% block content %}
+<div class="top-bar">
+  <div class="title">
+    <h2>Book Library</h2>
+  </div>
+  <div class="buttons">
+    <a href="{% url 'Home' %}" style="text-decoration: none">
+      <button class="button">Home</button>
+    </a>
+    <a href="{% url 'addBook' %}" style="text-decoration: none">
+      <button class="button">ADD</button>
+    </a>
+  </div>
+</div>
+<div class='products'>
+  <a href="{% url 'editUsers' %}" style="text-decoration: none;">
+    <div class="bookCard-card">
+        <div class="bookCard-details">
+            <div class="bookCard-title">{{ user }} User</div>
+          <div class="bookCard-author">
+            <p class="bookCard-author">edit all user data</p>
+          </div>
+        </div>
+    </div>
+  </a>
+  <a href="{% url 'editBook' %}" style="text-decoration: none;">
+    <div class="bookCard-card">
+        <div class="bookCard-details">
+            <div class="bookCard-title">{{ book }} Book</div>
+          <div class="bookCard-author">
+            <p class="bookCard-author">Edit book data</p>
+          </div>
+        </div>
+    </div>
+  </a>
+  <a href="{% url 'editComment' %}" style="text-decoration: none;">
+    <div class="bookCard-card">
+        <div class="bookCard-details">
+            <div class="bookCard-title">{{ comment }} Comments</div>
+          <div class="bookCard-author">
+            <p class="bookCard-author">Edit the Comments on the books</p>
+          </div>
+        </div>
+    </div>
+  </a>
+  <a href="{% url 'editFAQ' %}" style="text-decoration: none;">
+    <div class="bookCard-card">
+        <div class="bookCard-details">
+            <div class="bookCard-title">{{ faq }} FAQ</div>
+          <div class="bookCard-author">
+            <p class="bookCard-author">Edit the FAQ page</p>
+          </div>
+        </div>
+    </div>
+  </a>
+</div>
+{% endblock %}

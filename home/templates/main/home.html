@@ -1,0 +1,97 @@
+{% extends "../components/base.html" %} {% block content %}
+<style></style>
+<div class="top-bar">
+  <div class="title">
+    <h2>Book Library</h2>
+  </div>
+  <div class="buttons">
+    {% if user.is_authenticated %}
+    {% if user.is_staff %}
+      <a href="{% url 'adminMain' %}" style="text-decoration: none">
+        <button class="button">Admin page</button>
+      </a>
+      {% else %}
+      <a href="{% url 'profile' %}" style="text-decoration: none">
+        <button class="button">My profile</button>
+      </a>
+    {% endif %}
+    <a href="{% url 'cart' %}" style="text-decoration: none">
+      <button class="button">Cart</button>
+    </a>
+    <a href="{% url 'search' %}" style="text-decoration: none">
+      <button class="button">Search</button>
+    </a>
+    <a href="{% url 'addBook' %}" style="text-decoration: none">
+      <button class="button">ADD</button>
+    </a>
+    <a href="{% url 'logout' %}" style="text-decoration: none">
+      <button class="button">Sign Out</button>
+    </a>
+    {% else %}
+    <a href="{% url 'login' %}" style="text-decoration: none">
+      <button class="button">Login</button>
+    </a>
+    {% endif %}
+  </div>
+</div>
+
+{% if read_data %}
+<div id="Reading" class="">
+  <div class="user-info" style="margin-top: 0">
+    <h2 style="padding: 10px">Reading</h2>
+  </div>
+  <div class="products">
+    {% for book in read_data %}
+    <a href="{% url 'Book' pk=book.book.pk %}" style="text-decoration: none">
+      {% include '../components/box.html' with book=book.book %}
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<div class="tab-container">
+  {% for genre in unique_genres %}
+  <div class="home-tab" onclick="showTab('{{ genre }}')">{{ genre }}</div>
+  {% endfor %}
+</div>
+
+{% for genre in unique_genres %}
+<div id="{{ genre }}" class="tab-content" style="margin-top: 0">
+  <h2>{{ genre }}</h2>
+  <div class="products">
+    {% for book in data %} {% if book.genre == genre %}
+    <a href="{% url 'Book' pk=book.pk %}" style="text-decoration: none">
+      {% include '../components/box.html' with book=book %}
+    </a>
+    {% endif %} {% endfor %}
+  </div>
+</div>
+{% endfor %}
+
+<div class="user-info" style="margin-top: 0">
+  <h2 style="padding: 10px">All books</h2>
+</div>
+<div class="products">
+  {% for book in data %}
+  <a href="{% url 'Book' pk=book.pk %}" style="text-decoration: none">
+    {% include '../components/box.html' with book=book %}
+  </a>
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listeners or other JavaScript functionality here
+  });
+
+  function showTab(tabName) {
+    var tabs = document.getElementsByClassName("tab-content");
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].style.display = "none";
+    }
+
+    document.getElementById(tabName).style.display = "block";
+  }
+</script>
+{% endblock %}

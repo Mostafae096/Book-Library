@@ -1,0 +1,31 @@
+{% extends "../components/base.html" %}
+{% block title %}Book name{% endblock %}
+{% block content %}
+<div class="top-bar">
+  <div class="title">
+    <h2>Book Library</h2>
+  </div>
+  <div class="buttons">
+    <a href="{% url 'adminMain' %}" style="text-decoration: none">
+      <button class="button">back to admin page</button>
+    </a>
+    <a href="{% url 'Home' %}" style="text-decoration: none">
+      <button class="button">Home</button>
+    </a>
+  </div>
+</div>
+<div class='products'>
+    {% for book in books %}
+    <a href="{% url 'editBookForm' pk=book.pk %}" style="text-decoration: none;">
+      {% include '../components/box.html' with book=book %}
+    </a>
+    {% endfor %}
+    <a href="{% url 'addBook' %}" style="text-decoration: none;">
+      <div class="bookCard-card">
+          <div class="bookCard-details">
+              <div class="bookCard-title">Add new Book</div>
+          </div>
+      </div>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Book Library{% endblock %}</title>
+    {% block style %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    {% endblock %}
+  </head>
+  <body>
+    {% block content %}{% endblock %} {% block footer %}
+    <footer>
+      <div class="footer-continer">
+        <div class="content">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="{% url 'Home' %}">Home</a></li>
+            <li><a href="{% url 'faq' %}">FAQ</a></li>
+            <li><a href="{% url 'addBook' %}">Add Books</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Sign Out</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div class="content">
+          <h3>Contact</h3>
+          <p>Email: test@booklibrary.com</p>
+          <p>Phone: 1589561654</p>
+        </div>
+        <div style="text-align: center">
+          <p>&copy; 2023 Book Library. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    {% endblock %}
+    <script>
+      function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        var mainContent = document.getElementById("main-content");
+
+        if (sidebar.style.width === "160px") {
+          sidebar.style.width = "0";
+          mainContent.style.marginLeft = "0";
+        } else {
+          sidebar.style.width = "160px";
+          mainContent.style.marginLeft = "160px";
+        }
+      }
+    </script>
+  </body>
+</html>

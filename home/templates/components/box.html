@@ -1,0 +1,21 @@
+{% load custom_filters %}
+<div class="bookCard-card">
+  <img class="bookCard-cover" src="{{ book.cover_image }}" alt="Book Cover">
+  <div class="bookCard-details">
+    <div class="bookCard-title">{{ book.bookName }}</div>
+    <div class="bookCard-author">
+      <p class="bookCard-author">By <span>{{ book.bookAuthor }}</span></p>
+    </div>
+    <div class="bookCard-description">
+      <div>
+        {% for _ in book.rating|star_range %}
+        <span class="bookCard-star">&#9733;</span>
+        {% endfor %}
+        {% for _ in book.rating|add:"-5"|star_range %}
+        <span class="bookCard-star">&#9734;</span>
+        {% endfor %}
+        <span class="bookCard-rating-text">{{ book.rating }}.0 Ratings</span>
+      </div>
+    </div>
+  </div>
+</div>

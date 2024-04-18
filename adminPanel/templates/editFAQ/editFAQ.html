@@ -1,0 +1,51 @@
+{% extends "../components/base.html" %} {% block content %}
+<!-- <style>
+  start admin FAQ page style
+  .admin_faq-main-content {
+    padding: 2em;
+    margin-top: 5em;
+  }
+  end admin FAQ page style
+</style> -->
+
+<div class="top-bar">
+  <div class="title">
+    <h2>Book Library</h2>
+  </div>
+  <div class="buttons">
+    <a href="{% url 'adminMain' %}" style="text-decoration: none">
+      <button class="button">back to admin page</button>
+    </a>
+    <a href="{% url 'Home' %}" style="text-decoration: none">
+      <button class="button">Home</button>
+    </a>
+  </div>
+</div>
+
+<div class="admin_faq-main-content">
+  <div class="products">
+    {% for question in data %}
+    <a
+      href="{% url 'editfaqform' pk=question.pk %}"
+      style="text-decoration: none"
+    >
+      <div class="bookCard-card">
+        <div class="bookCard-details">
+          <div class="bookCard-title">{{ question.question }}</div>
+          <div class="bookCard-author">
+            <p class="bookCard-author">{{ question.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+    <a href="{% url 'addfaqform' %}" style="text-decoration: none">
+      <div class="bookCard-card">
+        <div class="bookCard-details">
+          <div class="bookCard-title">Add new FAQ</div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+{% endblock %}

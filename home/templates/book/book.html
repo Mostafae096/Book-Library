@@ -1,0 +1,219 @@
+{% extends "../components/base.html" %} {% load custom_filters %} {% block title
+%}Book name{% endblock %} {% block content %}
+<style>
+  .book-delete-button {
+    padding: 0.625em 1.25em;
+    font-size: 1.2em;
+    background-color: rgba(255, 0, 0, 0.697);
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.9375em;
+    margin-left: 2rem;
+  }
+
+  .book-delete-button:hover {
+    background-color: rgba(255, 0, 0, 0.93);
+  }
+</style>
+<div class="book-main-content">
+  <div class="book-container">
+    <div class="book-details">
+      <div class="book-cover">
+        <img src="{{book.cover_image}}" alt="Book Cover" />
+      </div>
+      <div class="book-info">
+        <h1 class="book-h1">{{book.bookName}}</h1>
+        <p class="book-author">
+          By <span>{{book.bookAuthor}}</span>, {{book.publication_date}}
+        </p>
+        <p class="book-genres">Genres: {{book.genre}}</p>
+        <div class="book-rating">
+          {% for _ in book.rating|star_range %}
+          <span class="book-star">&#9733;</span>
+          {% endfor %} {% for _ in book.rating|add:"-5"|star_range %}
+          <span class="book-star">&#9734;</span>
+          {% endfor %}
+          <span class="book-rating-text">{{ book.rating }}.0 Ratings</span>
+        </div>
+        <div style="display: flex">
+          <a
+            href="{% url 'add_to_cart' book.id %}"
+            style="text-decoration: none"
+          >
+            <button class="book-borrow-button">Download</button>
+          </a>
+          <!-- Delete Book -->
+          <form method="post" action="{% url 'delete_book' pk=book.pk %}">
+            {% csrf_token %}
+            <input
+              class="book-delete-button"
+              type="submit"
+              value="Delete Book"
+            />
+          </form>
+        </div>
+        <!-- adding buttons -->
+        <!-- Wishlist -->
+        {% if Wishlist_data %} {% for item in Wishlist_data %} {% if
+        item.book.pk == book.pk %}
+        <a
+          href="{% url 'remove_from_wishlist' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="fas fa-heart book-icon book-wishlist-icon"
+            title="Remove from Wishlist"
+          ></i>
+        </a>
+        {% else %}
+        <a
+          href="{% url 'add_to_wishlist' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="far fa-heart book-icon book-wishlist-icon"
+            title="Add to Wishlist"
+          ></i>
+        </a>
+        {% endif %} {% endfor %} {% else %}
+        <a
+          href="{% url 'add_to_wishlist' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="far fa-heart book-icon book-wishlist-icon"
+            title="Add to Wishlist"
+          ></i>
+        </a>
+        {% endif %}
+
+        <!-- Favourite -->
+        {% if favourite_data %} {% for item in favourite_data %} {% if
+        item.book.pk == book.pk %}
+        <a
+          href="{% url 'remove_from_favourite' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="fas fa-star book-icon book-favourite-icon"
+            title="Remove from Favourite"
+          ></i>
+        </a>
+        {% else %}
+        <a
+          href="{% url 'add_to_favourite' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="far fa-star book-icon book-favourite-icon"
+            title="Add to Favourite"
+          ></i>
+        </a>
+        {% endif %} {% endfor %} {% else %}
+        <a
+          href="{% url 'add_to_favourite' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="far fa-star book-icon book-favourite-icon"
+            title="Add to Favourite"
+          ></i>
+        </a>
+        {% endif %}
+
+        <!-- Read -->
+        {% if read_data %} {% for item in read_data %} {% if item.book.pk ==
+        book.pk %}
+        <a
+          href="{% url 'remove_from_read' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="fas fa-book book-icon book-read-icon"
+            title="Remove from Read"
+          ></i>
+        </a>
+        {% else %}
+        <a
+          href="{% url 'add_to_read' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="far fa-book book-icon book-read-icon"
+            title="Add to Read"
+          ></i>
+        </a>
+        {% endif %} {% endfor %} {% else %}
+        <a
+          href="{% url 'add_to_read' book_id=book.pk %}"
+          style="text-decoration: none"
+        >
+          <i
+            class="far fa-book book-icon book-read-icon"
+            title="Add to Read"
+          ></i>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="comment-section">
+      <h2 class="book-h2">Comments</h2>
+
+      {% for comment in book.comments.all %}
+      <div class="book-comment">
+        <p class="book-comment-user">
+          {{ comment.user }}:<span class="book-comment-rating">
+            Rating: {{comment.rating }}/5</span
+          >
+        </p>
+        <p class="book-comment-text">{{ comment.text }}</p>
+        <p class="book-comment-created-at">
+          Posted on: {{ comment.created_at }}
+        </p>
+      </div>
+      {% endfor %}
+
+      <!-- Comment input and submit button -->
+      {% if user.is_authenticated %}
+      <form method="post" action="{% url 'submit_comment' book_id=book.id %}">
+        {% csrf_token %}
+        <textarea
+          name="comment_text"
+          id="comment-text"
+          class="book-textarea"
+          placeholder="Add your comment..."
+        ></textarea>
+        <input
+          type="submit"
+          value="SUBMIT COMMENT"
+          class="book-submit-button"
+          disabled
+        />
+      </form>
+      <script>
+        document
+          .getElementById("comment-text")
+          .addEventListener("input", function () {
+            var submitButton = document.querySelector(".book-submit-button");
+            submitButton.disabled = this.value.trim() === "";
+          });
+      </script>
+      {% else %}
+      <p>Please <a href="{% url 'login' %}">log in</a> to leave a comment.</p>
+      {% endif %}
+    </div>
+
+    <!-- Back to Main Page link with icon -->
+    <div style="position: fixed; top: 1em; left: 1em; z-index: 999">
+      <a href="{% url 'Home' %}">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+    </div>
+  </div>
+
+  {% endblock %} {% block footer %}{% endblock %}
+</div>

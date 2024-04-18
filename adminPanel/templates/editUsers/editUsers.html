@@ -1,0 +1,31 @@
+{% extends "../components/base.html" %} {% block title %}Edit users{% endblock %} 
+{% block content %}
+<div class="top-bar">
+  <div class="title">
+    <h2>Book Library</h2>
+  </div>
+  <div class="buttons">
+    <a href="{% url 'adminMain' %}" style="text-decoration: none">
+      <button class="button">back to admin page</button>
+    </a>
+    <a href="{% url 'Home' %}" style="text-decoration: none">
+      <button class="button">Home</button>
+    </a>
+  </div>
+</div>
+<div class="products">
+  {% for user in all_users %}
+  <a href="{% url 'editUsersform' pk=user.pk %}" style="text-decoration: none">
+    <div class="bookCard-card">
+      <div class="bookCard-details">
+        <div class="bookCard-title">{{ user.fullname }}</div>
+        <div class="bookCard-title">{{ user.username }}</div>
+        <div class="bookCard-author">
+          <p class="bookCard-author">{{ user.email }}</p>
+        </div>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

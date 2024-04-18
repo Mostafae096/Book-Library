@@ -1,0 +1,89 @@
+{% extends "../components/base.html" %} {% block title %}Profile{% endblock %}
+{% block content %}
+<div class="top-bar">
+  <div class="title">
+    <h2>Book Library</h2>
+  </div>
+  <nav class="profile-nav-bar">
+    <a href="{% url 'Home' %}" class="active">Home</a>
+    <a onclick="showtab('wishlist')">Wish list</a>
+    <a onclick="showtab('favourite')">favourite</a>
+    <a onclick="showtab('Reading')">Reading</a>
+    <a href="{% url 'Edit' %}" style="text-decoration: none">
+      <button class="button">Edit profile</button>
+    </a>
+    <a href="{% url 'logout' %}" style="text-decoration: none">
+      <button class="button">Sign Out</button>
+    </a>
+  </nav>
+</div>
+
+<div class="profile-user-info">
+  <h1>{{ user_data.username }}</h1>
+  <div class="contact-info">
+    <p>Email: {{ user_data.email }}</p>
+    <p>Phone: {{ user_profile_data.phoneNum }}</p>
+  </div>
+  <p>Joined: {{ user_data.date_joined.date }}</p>
+  <div class="bio">
+    <p>{{ user_profile_data.bio }}</p>
+  </div>
+</div>
+<div id="wishlist" class="profile-tab-content" style="display: block">
+  <div class="profile-user-info" style="margin-top: 0">
+    <h2>Wish list</h2>
+  </div>
+  <div class="products">
+    {% if Wishlist_data %} {% for book in Wishlist_data %}
+    <a href="{% url 'Book' pk=book.book.pk %}" style="text-decoration: none">
+      {% include '../components/box.html' with book=book.book %}
+    </a>
+    {% endfor %} {% else %}
+    <p>There are no books in your wishlist...</p>
+    {% endif %}
+  </div>
+</div>
+<div id="favourite" class="profile-tab-content">
+  <div class="profile-user-info" style="margin-top: 0">
+    <h2>favourite</h2>
+  </div>
+  <div class="products">
+    {% if favourite_data %} {% for book in favourite_data %}
+    <a href="{% url 'Book' pk=book.book.pk %}" style="text-decoration: none">
+      {% include '../components/box.html' with book=book.book %}
+    </a>
+    {% endfor %} {% else %}
+    <p>There are no books in your favourite...</p>
+    {% endif %}
+  </div>
+</div>
+<div id="Reading" class="profile-tab-content">
+  <div class="profile-user-info" style="margin-top: 0">
+    <h2>Reading</h2>
+  </div>
+  <div class="products">
+    {% if read_data %} {% for book in read_data %}
+    <a href="{% url 'Book' pk=book.book.pk %}" style="text-decoration: none">
+      {% include '../components/box.html' with book=book.book %}
+    </a>
+    {% endfor %} {% else %}
+    <p>There are no books in your read...</p>
+    {% endif %}
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listeners or other JavaScript functionality here
+  });
+
+  function showtab(tabName) {
+    var tabs = document.getElementsByClassName("profile-tab-content");
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].style.display = "none";
+    }
+
+    document.getElementById(tabName).style.display = "block";
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "../components/base.html" %}
+{% block title %}Edit Book{% endblock %}
+
+{% block content %}
+<div class="form-main-content">
+    <form name="product_form" id="product_form" method="POST" action="" class="form-container">
+        {% csrf_token %}
+        <div class="form-title">
+            <h2>Edit Book Information</h2>
+        </div>
+
+        <label class="form-label">
+            Book Name:
+            {{ form.bookName }}
+        </label>
+        <label class="form-label">
+            Book Author:
+            {{ form.bookAuthor }}
+        </label>
+        <label class="form-label">
+            Publication Date:
+            {{ form.publication_date }}
+        </label>
+        <label class="form-label">
+            Genre:
+            {{ form.genre }}
+        </label>
+        <label class="form-label">
+            Rating:
+            {{ form.rating }}
+        </label>
+        <label class="form-label">
+            Cover Image:
+            {{ form.cover_image }}
+        </label>
+        <label class="form-label">
+            Download Link:
+            {{ form.download_link }}
+        </label>
+
+        <div class="form-buttons">
+            <button class="button" type="submit">Update Book</button>
+            <a class="button" href="{% url 'editBook' %}">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
